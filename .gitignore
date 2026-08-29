@@ -1,0 +1,14 @@
+dist/
+*.exe
+*.apk
+.idea/
+.gradle/
+local.properties
+build/
+**/build/
+*.jks
+*.keystore
+config.json
+nekopresence-config.json
+.DS_Store
+Thumbs.db
