@@ -1,0 +1,72 @@
+name: Manual Build - Linux and Raspberry Pi
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: What do you want to build?
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - linux-x64
+          - raspberry-pi-arm64
+
+permissions:
+  contents: read
+
+jobs:
+  linux-x64:
+    if: ${{ inputs.target == 'all' || inputs.target == 'linux-x64' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Linux branch
+        uses: actions/checkout@v4
+        with:
+          ref: linux
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+
+      - name: Build Linux x64
+        run: |
+          mkdir -p dist
+          cd desktop-agent-go
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags='-s -w' -o ../dist/nekopresence-linux-amd64 .
+
+      - name: Upload Linux x64
+        uses: actions/upload-artifact@v4
+        with:
+          name: NekoPresenceKey-Linux-x64
+          path: dist/nekopresence-linux-amd64
+          if-no-files-found: error
+
+  raspberry-pi-arm64:
+    if: ${{ inputs.target == 'all' || inputs.target == 'raspberry-pi-arm64' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Linux branch
+        uses: actions/checkout@v4
+        with:
+          ref: linux
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+
+      - name: Build Raspberry Pi ARM64
+        run: |
+          mkdir -p dist
+          cd desktop-agent-go
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags='-s -w' -o ../dist/nekopresence-linux-arm64 .
+
+      - name: Upload Raspberry Pi ARM64
+        uses: actions/upload-artifact@v4
+        with:
+          name: NekoPresenceKey-RaspberryPi-ARM64
+          path: dist/nekopresence-linux-arm64
+          if-no-files-found: error
