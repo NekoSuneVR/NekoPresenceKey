@@ -1,0 +1,21 @@
+name: Build Linux and Raspberry Pi
+
+on:
+  push:
+    branches: [linux]
+  workflow_dispatch:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+      - name: Build Linux x64 and ARM64
+        run: ./scripts/build-desktop.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nekopresence-linux
+          path: dist/

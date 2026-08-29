@@ -1,0 +1,5 @@
+dist/
+config.json
+nekopresence-config.json
+.DS_Store
+Thumbs.db
