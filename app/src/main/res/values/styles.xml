@@ -1,7 +1,0 @@
-<resources>
-    <style name="Theme.NekoPresence" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">#B47CFF</item>
-        <item name="colorPrimaryVariant">#7C4DFF</item>
-        <item name="colorSecondary">#FF86D7</item>
-    </style>
-</resources>
